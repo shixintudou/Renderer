@@ -15,7 +15,7 @@ public:
 	Shader shader;
 	int width;
 	int height;
-	std::vector<unsigned char>& colorBuffer = FrontBuffer.colorBuffer;
+	std::vector<unsigned int>& colorBuffer = FrontBuffer.colorBuffer;
 	Rasterize() :FrontBuffer(1920, 1080) 
 	{
 		FrontBuffer.ClearBuffer(glm::vec4(0, 255, 0, 0));	
@@ -24,7 +24,7 @@ public:
 		height = 1080;
 		colorBuffer = FrontBuffer.colorBuffer;
 	};
-	Rasterize(int width, int height)
+	Rasterize(int width, int height) :FrontBuffer(width, height)
 	{
 		FrontBuffer.ClearBuffer(glm::vec4(0, 255, 0, 0));
 		FrontBuffer.Resize(width, height);

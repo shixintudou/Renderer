@@ -1,5 +1,5 @@
 #include "Rasterize.h"
-
+#include <iostream>
 void Rasterize::ScanTriangle(const V2F& v1, const V2F& v2, const V2F& v3)
 {
 	std::vector<V2F> arr = { v1,v2,v3 };
@@ -16,7 +16,7 @@ void Rasterize::ScanTriangle(const V2F& v1, const V2F& v2, const V2F& v3)
 		DownTriangle(arr[1], newEdge, arr[0]);
 	}
 }
-
+ 
 void Rasterize::UpTriangle(const V2F& v1, const V2F& v2, const V2F& v3)
 {
 	V2F left, right, top;
@@ -27,6 +27,7 @@ void Rasterize::UpTriangle(const V2F& v1, const V2F& v2, const V2F& v3)
 	int dy = top.windowPos.y - left.windowPos.y;
 	int nowY = top.windowPos.y;
 	//从上往下插值
+	//std::cout << "up";
 	for (int i = dy; i >= 0; i--) 
 	{
 		float weight = 0;
@@ -40,6 +41,8 @@ void Rasterize::UpTriangle(const V2F& v1, const V2F& v2, const V2F& v3)
 		newRight.windowPos.x = int(newRight.windowPos.x + 0.5);
 		newLeft.windowPos.y = newRight.windowPos.y = nowY;
 		ScanLine(newLeft, newRight);
+		//std::cout << newLeft.windowPos.x << "  " << newLeft.windowPos.y << std::endl;
+		//std::cout << newRight.windowPos.x << "  " << newRight.windowPos.y << std::endl;
 		nowY--;
 	}
 }
@@ -53,6 +56,7 @@ void Rasterize::DownTriangle(const V2F& v1, const V2F& v2, const V2F& v3)
 	int dy = left.windowPos.y - bottom.windowPos.y;
 	int nowY = left.windowPos.y;
 	//从上往下插值
+	//std::cout << "down";
 	for (int i = 0; i < dy; i++) 
 	{
 		float weight = 0;
@@ -76,6 +80,9 @@ void Rasterize::ScanLine(const V2F& v1, const V2F& v2)
 	for (int i = 0; i < length; i++)
 	{
 		V2F v = V2F::Lerp(v1, v2, (float)i / length);
+		v.windowPos.x = v1.windowPos.x + i;
+		v.windowPos.y = v1.windowPos.y;
+		//std::cout << v.color.r << ' ' << v.color.g << ' ' << v.color.b << std::endl;
 		FrontBuffer.WritePoint(v.windowPos.x, v.windowPos.y, shader.FragmentShader(v));
 	}
 }

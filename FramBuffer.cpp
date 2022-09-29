@@ -16,8 +16,8 @@ void FrameBuffer::WritePoint(const int& x, const int& y, const glm::vec4& color)
 	if (x < 0 || x >= width || y < 0 || y >= height)
 		return;
 	int xy = y * width + x;
-	colorBuffer[xy] = color.r;
-	colorBuffer[xy + 1] = color.g;
-	colorBuffer[xy + 2] = color.b;
-	colorBuffer[xy + 3] = color.a;
+	colorBuffer[xy*4] = color.r;
+	colorBuffer[xy*4 + 1] = color.g;
+	colorBuffer[xy*4 + 2] = color.b;
+	colorBuffer[xy*4 + 3] = color.a;
 }

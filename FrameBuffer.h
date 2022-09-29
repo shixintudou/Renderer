@@ -9,7 +9,7 @@ public:
 
 	int width = 1920;
 	int height = 1080;
-	std::vector<unsigned char> colorBuffer;
+	std::vector<unsigned int> colorBuffer;
 	FrameBuffer(int wid, int hei) :width(wid), height(hei) 
 	{
 		colorBuffer.resize(wid * hei * 4);
